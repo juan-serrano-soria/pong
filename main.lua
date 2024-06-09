@@ -1,6 +1,13 @@
 function love.load()
     y = 300 - 100/2 -- Player 1
     yy = 300 - 100/2 -- Player 2
+
+    ball = {}
+    ball.x = 400
+    ball.y = 300
+    ball.dx = 0 -- Speed in x
+    ball.dy = 0 -- Speed in y
+    ball.speed = 2 -- Absolute speed
 end
 
 function love.update(dt)
@@ -27,9 +34,34 @@ function love.update(dt)
     elseif yy > 600 - 100 then
         yy = 600 - 100
     end
+
+    -- Start the game
+    if love.keyboard.isDown("return") then
+        -- Reset the ball position
+        ball.x = 400
+        ball.y = 300
+        -- Generate a random angle
+        local angle = love.math.random() * 2 * math.pi
+
+        -- Calculate dx and dy based on the angle and the speed
+        ball.dx = ball.speed * math.cos(angle)
+        ball.dy = ball.speed * math.sin(angle)
+    end
+
+    -- Ball movement
+    ball.x = ball.x + ball.dx
+    ball.y = ball.y + ball.dy
+
+    -- Avoid the ball to go out of the screen
+    if ball.y < 0 or ball.y > 600 then
+        ball.dy = -ball.dy
+    end
+
+
 end
 
 function love.draw()
     love.graphics.rectangle("fill", 10, y, 5, 100) -- Player 1
     love.graphics.rectangle("fill", 790 - 5, yy, 5, 100) -- Player 2
+    love.graphics.circle("fill", ball.x, ball.y, 5) -- Ball
 end
