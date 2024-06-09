@@ -57,6 +57,20 @@ function love.update(dt)
         ball.dy = -ball.dy
     end
 
+    -- Collision with the players
+    if ball.x < 10 + 5 and ball.y > y and ball.y < y + 100 then
+        ball.dx = -ball.dx
+    elseif ball.x > 790 - 5 and ball.y > yy and ball.y < yy + 100 then
+        ball.dx = -ball.dx
+    end
+
+    -- Collision with the walls
+    if ball.x < 0 or ball.x > 800 then
+        ball.x = 400
+        ball.y = 300
+        ball.dx = 0
+        ball.dy = 0
+    end
 
 end
 
