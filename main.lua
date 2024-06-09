@@ -1,6 +1,6 @@
 function love.load()
-    y = 300 -- Player 1
-    yy = 300 -- Player 2
+    y = 300 - 100/2 -- Player 1
+    yy = 300 - 100/2 -- Player 2
 end
 
 function love.update(dt)
@@ -15,9 +15,21 @@ function love.update(dt)
     elseif love.keyboard.isDown("down") then
         yy = yy + 5
     end
+
+    -- Avoid the players to go out of the screen
+    if y < 0 then
+        y = 0
+    elseif y > 600 - 100 then
+        y = 600 - 100
+    end
+    if yy < 0 then
+        yy = 0
+    elseif yy > 600 - 100 then
+        yy = 600 - 100
+    end
 end
 
 function love.draw()
-    love.graphics.rectangle("fill", 10, y - 100/2, 5, 100) -- Player 1
-    love.graphics.rectangle("fill", 790 - 5, yy - 100/2, 5, 100) -- Player 2
+    love.graphics.rectangle("fill", 10, y, 5, 100) -- Player 1
+    love.graphics.rectangle("fill", 790 - 5, yy, 5, 100) -- Player 2
 end
