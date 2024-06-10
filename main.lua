@@ -12,6 +12,15 @@ function love.load()
     -- Set the font and the text
     font = love.graphics.newFont(24)
     text = love.graphics.newText(font, "Press Enter to start the game")
+
+    -- Set the scores
+    score1 = 0
+    score2 = 0
+
+    -- Set the font and the text for the score
+    scoreFont = love.graphics.newFont(48)
+    scoreText1 = love.graphics.newText(scoreFont, score1)
+    scoreText2 = love.graphics.newText(scoreFont, score2)
 end
 
 function love.update(dt)
@@ -74,6 +83,13 @@ function love.update(dt)
 
     -- Collision with the walls
     if ball.x < 0 or ball.x > 800 then
+        if ball.x < 0 then
+            score2 = score2 + 1
+            scoreText2:set(score2)
+        else
+            score1 = score1 + 1
+            scoreText1:set(score1)
+        end
         ball.x = 400
         ball.y = 300
         ball.dx = 0
@@ -90,4 +106,8 @@ function love.draw()
     -- Text rendering
     love.graphics.setFont(font)
     love.graphics.draw(text, 400 - text:getWidth() / 2, 100 - text:getHeight() / 2)
+    -- Score rendering
+    love.graphics.setFont(scoreFont)
+    love.graphics.draw(scoreText1, 300 - scoreText1:getWidth() / 2, 50 - scoreText1:getHeight() / 2)
+    love.graphics.draw(scoreText2, 500 - scoreText2:getWidth() / 2, 50 - scoreText2:getHeight() / 2)
 end
