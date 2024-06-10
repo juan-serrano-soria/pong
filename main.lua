@@ -8,6 +8,10 @@ function love.load()
     ball.dx = 0 -- Speed in x
     ball.dy = 0 -- Speed in y
     ball.speed = 2 -- Absolute speed
+
+    -- Set the font and the text
+    font = love.graphics.newFont(24)
+    text = love.graphics.newText(font, "Press Enter to start the game")
 end
 
 function love.update(dt)
@@ -37,6 +41,8 @@ function love.update(dt)
 
     -- Start the game
     if love.keyboard.isDown("return") then
+        -- Change the text
+        text:set("")
         -- Reset the ball position
         ball.x = 400
         ball.y = 300
@@ -70,12 +76,15 @@ function love.update(dt)
         ball.y = 300
         ball.dx = 0
         ball.dy = 0
+        text:set("Press Enter to continue")
     end
-
 end
 
 function love.draw()
     love.graphics.rectangle("fill", 10, y, 5, 100) -- Player 1
     love.graphics.rectangle("fill", 790 - 5, yy, 5, 100) -- Player 2
     love.graphics.circle("fill", ball.x, ball.y, 5) -- Ball
+    -- Text rendering
+    love.graphics.setFont(font)
+    love.graphics.draw(text, 400 - text:getWidth() / 2, 100 - text:getHeight() / 2)
 end
