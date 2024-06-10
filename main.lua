@@ -50,13 +50,13 @@ function love.update(dt)
         local angle = love.math.random() * 2 * math.pi
 
         -- Calculate dx and dy based on the angle and the speed
-        ball.dx = ball.speed * math.cos(angle)
-        ball.dy = ball.speed * math.sin(angle)
+        ball.dx = math.cos(angle)
+        ball.dy = math.sin(angle)
     end
 
     -- Ball movement
-    ball.x = ball.x + ball.dx
-    ball.y = ball.y + ball.dy
+    ball.x = ball.x + ball.dx * ball.speed
+    ball.y = ball.y + ball.dy * ball.speed
 
     -- Avoid the ball to go out of the screen
     if ball.y < 0 or ball.y > 600 then
@@ -66,8 +66,10 @@ function love.update(dt)
     -- Collision with the players
     if ball.x < 10 + 5 and ball.y > y and ball.y < y + 100 then
         ball.dx = -ball.dx
+        ball.speed = ball.speed + 0.5
     elseif ball.x > 790 - 5 and ball.y > yy and ball.y < yy + 100 then
         ball.dx = -ball.dx
+        ball.speed = ball.speed + 0.5
     end
 
     -- Collision with the walls
@@ -76,6 +78,7 @@ function love.update(dt)
         ball.y = 300
         ball.dx = 0
         ball.dy = 0
+        ball.speed = 2
         text:set("Press Enter to continue")
     end
 end
