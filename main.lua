@@ -21,6 +21,12 @@ function love.load()
     scoreFont = love.graphics.newFont(48)
     scoreText1 = love.graphics.newText(scoreFont, score1)
     scoreText2 = love.graphics.newText(scoreFont, score2)
+
+    -- Load sounds
+    hitPlayerSound = love.audio.newSource("sounds/hitPlayer.wav", "static")
+    hitWallSound = love.audio.newSource("sounds/hitWall.wav", "static")
+    scoreSound = love.audio.newSource("sounds/score.wav", "static")
+    startSound = love.audio.newSource("sounds/hitPlayer.wav", "static")
 end
 
 function love.update(dt)
@@ -50,6 +56,7 @@ function love.update(dt)
 
     -- Start the game
     if love.keyboard.isDown("return") then
+        startSound:play()
         -- Change the text
         text:set("")
         -- Reset the ball position
@@ -69,6 +76,7 @@ function love.update(dt)
 
     -- Avoid the ball to go out of the screen
     if ball.y < 0 or ball.y > 600 then
+        hitWallSound:play()
         ball.dy = -ball.dy
     end
 
@@ -76,13 +84,16 @@ function love.update(dt)
     if ball.x < 10 + 5 and ball.y > y and ball.y < y + 100 then
         ball.dx = -ball.dx
         ball.speed = ball.speed + 0.5
+        hitPlayerSound:play()
     elseif ball.x > 790 - 5 and ball.y > yy and ball.y < yy + 100 then
         ball.dx = -ball.dx
         ball.speed = ball.speed + 0.5
+        hitPlayerSound:play()
     end
 
-    -- Collision with the walls
+    -- Collision with the score walls
     if ball.x < 0 or ball.x > 800 then
+        scoreSound:play()
         if ball.x < 0 then
             score2 = score2 + 1
             scoreText2:set(score2)
